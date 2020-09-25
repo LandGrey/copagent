@@ -1,2 +1,8 @@
 
 .DS_Store
+*.class
+*.iml
+.idea/*
+**/dependency-reduced-pom.xml
+**/target/*
+cop/src/main/resources/agent.jar
