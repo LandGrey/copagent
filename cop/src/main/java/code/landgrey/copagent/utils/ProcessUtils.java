@@ -335,6 +335,11 @@ public class ProcessUtils {
 
         command.addAll(attachArgs);
 
+        if (!JavaVersionUtils.isLessThanJava9())
+            command.add("greater_than_jdk9_flag");
+        if (toolsJar != null && toolsJar.exists())
+            command.add("bootstart_flag");
+
         ProcessBuilder pb = new ProcessBuilder(command);
 
         try {
