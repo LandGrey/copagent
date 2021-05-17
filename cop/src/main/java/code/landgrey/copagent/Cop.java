@@ -20,15 +20,22 @@ public class Cop {
         String filterClassName = "[unknown]";
         String attach_jar_path = null;
         String current_jar_path = PathUtils.getCurrentJarPath();
+//        AnsiLog.info("current_jarPth: " + current_jar_path);
+        AnsiLog.info("Java version: "+ JavaVersionUtils.javaVersionStr());
         HashMap<String, String> version_info = ProjectVersionUtils.get_version_info();
 
         // add "-Xbootclasspath/a" command line start cop.jar
-        boolean is_boot_start = ManagementFactory.getRuntimeMXBean().getInputArguments().toString().contains("-Xbootclasspath/a");
+        AnsiLog.info("args length: "+args.length);
 
-        if(is_boot_start){
+        List<String> argsList = Arrays.asList(args);
+
+        boolean is_boot_start = argsList.contains("bootstart_flag");
+        boolean is_greater_than_jre9 = argsList.contains("greater_than_jdk9_flag");
+
+        if(is_boot_start || is_greater_than_jre9 ){
             jvm_pid = args[0];
             attach_jar_path = args[1];
-            if(args.length == 3){
+            if(args.length >= 3){
                 filterClassName = args[2];
             }
             AnsiLog.info("Try to attach process " + jvm_pid + ", please wait a moment ...");
